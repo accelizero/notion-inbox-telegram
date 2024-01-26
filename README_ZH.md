@@ -1,7 +1,7 @@
 # notion-inbox-telegram
 这是一个简单的程序，可以从 Telegram bot 获取新的消息并将其同步到Notion页面块。
 
-[中文](https://github.com/accelizero/notion-inbox-telegram-plugin/blob/main/README_ZH.md) | [English](https://github.com/accelizero/notion-inbox-telegram-plugin/blob/main/README.md)
+[English](https://github.com/accelizero/notion-inbox-telegram-plugin/blob/master/README.md)
 
 ## 准备工作
 
@@ -78,5 +78,5 @@
 2. 百度语音 API 是可选的，需要额外配置，并且安装ffmpeg。
 
 ## 效果图
-![property](https://github.com/accelizero/notion-inbox-telegram-plugin/raw/main/property.png)
-![demo](https://github.com/accelizero/notion-inbox-telegram-plugin/raw/main/demo.png)
+![property](https://raw.githubusercontent.com/accelizero/notion-inbox-telegram-plugin/master/property.png)
+![demo](https://raw.githubusercontent.com/accelizero/notion-inbox-telegram-plugin/master/demo.png)
