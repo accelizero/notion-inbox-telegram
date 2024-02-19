@@ -13,6 +13,6 @@ COPY telegram_api.py $APP_HOME/
 RUN apk update
 RUN apk add python3
 RUN apk add py3-pip
-RUN python3 -m pip install -r requirements.txt
+RUN python3 -m pip install -r requirements.txt --break-system-packages
 
 CMD ["python3", "main.py"]
