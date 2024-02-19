@@ -1,7 +1,5 @@
 # notion-inbox-telegram
-这是一个简单的程序，可以从 Telegram bot 获取新的消息并将其同步到Notion页面块。
-
-[English](https://github.com/accelizero/notion-inbox-telegram-plugin/blob/master/README.md)
+telegram机器人无压输入同步notion插件
 
 ## 准备工作
 
@@ -15,7 +13,36 @@
 
 5. 浏览器打开Notion数据库并复制database_id `www.notion.so/<username>/<database_id>?v=<view_id>`
 
-6. 在 `config.py` 中配置
+## Docker部署
+
+1. 安装Docker
+
+    - ubuntu: `sudo apt install docker`
+    - centos: `sudo yum install docker-ce`
+
+2. 运行程序（填入准备工作获取的token等信息）
+
+    ``` bash
+    docker run -d \
+               --name notion-inbox-telegram \
+               -e TELEGRAM_TOKEN="" \
+               -e NOTION_AUTH="" \
+               -e NOTION_DATABASE_ID="" \
+               -e NOTION_TAG_NAME="Tags" \
+               -e NOTION_TAG_VALUE="日常" \
+               -e TIMEZONE="Asia/Shanghai" \
+    accelizero/notion-inbox-telegram:latest
+    ```
+
+## 命令行部署
+
+1. 安装依赖
+
+    ``` bash
+    pip install -r requirements.txt
+    ```
+
+2. 在 `config.py` 中配置
 
     - telegram token
 
@@ -29,53 +56,30 @@
   
        `NOTION_DATABASE_ID = "xxxxxxxxxxxxxxxxxxxxxxxxx"`
 
-注意: 自定义标签属性和名字、语音转文字等可选参数，请阅读 `config.py` 自行配置。
+   - notion标签属性
+       `NOTION_TAG_NAME` = "Tags"
 
-## Docker部署
+   - notion标签名字
+       `NOTION_TAG_VALUE ` = "日常"
 
-1. 安装Docker
-
-    - ubuntu: `sudo apt install docker`
-    - centos: `sudo yum install docker-ce`
-
-2. 运行程序
-
-    ``` bash
-    docker run -d \
-               --name notion-inbox-telegram \
-               -e TELEGRAM_TOKEN="" \
-               -e NOTION_AUTH="" \
-               -e NOTION_DATABASE_ID="" \
-               -e TIMEZONE="Asia/Shanghai" \
-    accelizero/notion-inbox-telegram:latest
-    ```
-
-## 常规部署
-
-1. 安装依赖
-
-    ``` bash
-    pip install -r requirements.txt
-    ```
-
-2. 快速开始
+3. 运行程序
 
     ``` bash
     python3 main.py
     ```
 
-将 Telegram 机器人添加到聊天中，然后开始发送消息。
+## 使用
+
+将 Telegram 机器人添加到聊天中，然后无压输入即可。
 
 ## 功能
 
-1. 将来自 Telegram 的文本、图片、文档、视频笔记和语音消息记录到 Notion 数据库。
-2. 自动将语音消息转换为文本（可选，需要百度语音 API）。
-3. 管理消息中的链接并将它们添加到 Notion 数据库。
+1. 将来自 Telegram 的文本、图片、文档、视频笔记和语音消息记录到 Notion 数据库（notion api还不支持上传，填入的telegram资源链接会过期，所以还是尽量文本记录吧）。
+2. 管理消息中的链接并将它们添加到 Notion 数据库。
 
 ## 注意事项
 
 1. 确保您拥有 Telegram 和 Notion 所需的 API 密钥和令牌。
-2. 百度语音 API 是可选的，需要额外配置，并且安装ffmpeg。
 
 ## 效果图
 ![property](https://raw.githubusercontent.com/accelizero/notion-inbox-telegram-plugin/master/property.png)
