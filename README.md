@@ -31,6 +31,7 @@ telegram机器人无压输入同步notion插件
                -e NOTION_TAG_NAME="Tags" \
                -e NOTION_TAG_VALUE="日常" \
                -e TIMEZONE="Asia/Shanghai" \
+               --restart unless-stopped \
     accelizero/notion-inbox-telegram:latest
     ```
 
@@ -76,6 +77,7 @@ telegram机器人无压输入同步notion插件
 
 1. 将来自 Telegram 的文本、图片、文档、视频笔记和语音消息记录到 Notion 数据库（notion api还不支持上传，填入的telegram资源链接会过期，所以还是尽量文本记录吧）。
 2. 管理消息中的链接并将它们添加到 Notion 数据库。
+3. 默认1分钟同步一次。
 
 ## 注意事项
 
