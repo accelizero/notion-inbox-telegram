@@ -113,7 +113,7 @@ def append_page(page_id: str, ctime: str, text: str, file_type: str, file_url: s
     if link_list:
         last_start = 0
         last_end = 0
-        new_block[-1]["paragraph"]["rich_text"] = [{"type": "text","text": {"content":text.split(' - ')[0] + " - "}}]
+        new_block[-1]["paragraph"]["rich_text"] = []
         text = ' - '.join(text.split(' - ')[1:])
         for start,end,content,url in link_list:
             new_block[-1]["paragraph"]["rich_text"].append({"type": "text","text": {"content": text[last_end:start]}})
