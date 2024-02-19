@@ -82,5 +82,4 @@ telegram机器人无压输入同步notion插件
 1. 确保您拥有 Telegram 和 Notion 所需的 API 密钥和令牌。
 
 ## 效果图
-![property](https://raw.githubusercontent.com/accelizero/notion-inbox-telegram-plugin/master/property.png)
-![demo](https://raw.githubusercontent.com/accelizero/notion-inbox-telegram-plugin/master/demo.png)
+![demo](https://raw.githubusercontent.com/accelizero/notion-inbox-telegram-plugin/master/show.png)
