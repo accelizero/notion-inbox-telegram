@@ -8,7 +8,6 @@ COPY config.py $APP_HOME/
 COPY main.py $APP_HOME/
 COPY notion_api.py $APP_HOME/
 COPY requirements.txt $APP_HOME/
-COPY speech.py $APP_HOME/
 COPY telegram_api.py $APP_HOME/
 
 RUN apk update

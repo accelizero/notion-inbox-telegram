@@ -58,23 +58,7 @@ def create_page(page_title: str, tag_value: str, tag_name: str = "tag") -> None:
         },
         tag_name: {"multi_select": [{"name": tag_value}]},
     }
-    new_page_content = [
-        {
-            "object": "block",
-            "type": "paragraph",
-            "paragraph": {
-                "rich_text": [
-                    {
-                        "type": "text",
-                        "text": {
-                            "content": page_title,
-                        }
-                    }
-                ]
-            }
-        }
-    ]
-    notion.pages.create(parent={"database_id": database_id}, properties=new_page, children=new_page_content)
+    notion.pages.create(parent={"database_id": database_id}, properties=new_page, children=[])
 
 
 def get_page_content(page_id: str) -> Dict[str, Any]:
@@ -88,32 +72,54 @@ def get_page_content(page_id: str) -> Dict[str, Any]:
     return content
 
 
-def append_page(block_id: str, text: str, file_type: str, file_url: str, link_list: List[tuple]) -> None:
-    new_block = [{"object": "block","type": "paragraph", "paragraph":{"rich_text": [{"type": "text","text":{"content":""}}]}},
+def append_page(page_id: str, ctime: str, text: str, file_type: str, file_url: str, link_list: List[tuple]) -> None:
+    new_block = [
+        {"object": "block","type": "paragraph", "paragraph":{"rich_text": [{"type": "text","text":{"content":""}}]}},
+        {
+            "type": "divider",
+            "divider": {}
+        },
         {
             "object": "block",
-            "type": "bulleted_list_item",
-            "bulleted_list_item": {
+            "type": "paragraph",
+            "paragraph": {
+                "rich_text": [
+                    {
+                        "type": "text",
+                        "text": {
+                            "content": ctime,
+                        },
+                        "annotations": {"code":True}
+                    }
+                ]
+            },
+
+        },
+        {
+            "object": "block",
+            "type": "paragraph",
+            "paragraph": {
                 "rich_text": [
                     {
                         "type": "text",
                         "text": {
                             "content": text,
-                        }
+                        },
                     }
                 ]
             }
-        }]
+        },
+    ]
     if link_list:
         last_start = 0
         last_end = 0
-        new_block[1]["bulleted_list_item"]["rich_text"] = [{"type": "text","text": {"content":text.split(' - ')[0] + " - "}}]
+        new_block[1]["paragraph"]["rich_text"] = [{"type": "text","text": {"content":text.split(' - ')[0] + " - "}}]
         text = ' - '.join(text.split(' - ')[1:])
         for start,end,content,url in link_list:
-            new_block[1]["bulleted_list_item"]["rich_text"].append({"type": "text","text": {"content": text[last_end:start]}})
-            new_block[1]["bulleted_list_item"]["rich_text"].append({"type": "text","text": {"content": content,"link":{"url":url}}})
+            new_block[1]["paragraph"]["rich_text"].append({"type": "text","text": {"content": text[last_end:start]}})
+            new_block[1]["paragraph"]["rich_text"].append({"type": "text","text": {"content": content,"link":{"url":url}}})
             last_end = end
-        new_block[1]["bulleted_list_item"]["rich_text"].append({"type": "text","text": {"content": text[last_end:]}})
+        new_block[1]["paragraph"]["rich_text"].append({"type": "text","text": {"content": text[last_end:]}})
 
     if file_url:
         #file_content = requests.get(file_url).content
@@ -162,14 +168,15 @@ def append_page(block_id: str, text: str, file_type: str, file_url: str, link_li
                     }
                 }
             })
-    notion.blocks.children.append(block_id, children=new_block, after=False)
+    #notion.blocks.children.append(block_id, children=new_block, after=False)
+    notion.blocks.children.append(page_id, children=new_block)
 
 
-def update_block(existing_page: Dict[str, Any], text: str, file_type: str, file_url: str, link_list: List[tuple]) -> None:
+def update_block(existing_page: Dict[str, Any], ctime: str, text: str, file_type: str, file_url: str, link_list: List[tuple]) -> None:
     page_id = existing_page["results"][0]["id"]
     content = get_page_content(page_id)
-    block_id = content["results"][-1]["id"]
-    append_page(block_id, text, file_type, file_url, link_list)
+    #block_id = content["results"][-1]["id"]
+    append_page(page_id, ctime, text, file_type, file_url, link_list)
 
 
 def insert(text: str, file_type: str = "", file_url: str = "", link_list: List[tuple]=[]) -> None:
@@ -180,8 +187,7 @@ def insert(text: str, file_type: str = "", file_url: str = "", link_list: List[t
         now = datetime.datetime.now(tz)
     else:
         now = datetime.datetime.now()
-    ctime = now.strftime("%H:%M")
-    text = f"{ctime} - {text}" if text else ctime
+    ctime = now.strftime("%Y-%m-%d %H:%M:%S")
     current_date = now.strftime("%Y-%m-%d")
     weekday = WEEKDAYS_DICT[now.strftime("%A")]
     page_title = f"{current_date} {weekday}"
@@ -189,7 +195,7 @@ def insert(text: str, file_type: str = "", file_url: str = "", link_list: List[t
     if not existing_page["results"]:
         create_page(page_title, tag_value, tag_name)
         existing_page = get_page(page_title)
-    update_block(existing_page, text, file_type, file_url, link_list)
+    update_block(existing_page, ctime, text, file_type, file_url, link_list)
 
 
 if __name__ == "__main__":
