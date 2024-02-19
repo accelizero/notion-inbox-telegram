@@ -1,7 +1,7 @@
 # notion-inbox-telegram
 This is simple program that get new messages from Telegram bot and sync its to notion page block.
 
-[中文](https://github.com/accelizero/notion-inbox-telegram-plugin/blob/main/README_ZH.md) | [English](https://github.com/accelizero/notion-inbox-telegram-plugin/blob/main/README.md)
+[中文](https://github.com/accelizero/notion-inbox-telegram-plugin/blob/master/README_ZH.md)
 
 ## Prepare
 
@@ -78,5 +78,5 @@ Add the Telegram bot to a chat and start sending messages.
 2. The Baidu Speech API is optional and requires additional configuration, and install ffmpeg.
 
 ## Screenshots
-![property](https://github.com/accelizero/notion-inbox-telegram-plugin/raw/main/property.png)
-![demo](https://github.com/accelizero/notion-inbox-telegram-plugin/raw/main/demo.png)
+![property](https://raw.githubusercontent.com/accelizero/notion-inbox-telegram-plugin/master/property.png)
+![demo](https://raw.githubusercontent.com/accelizero/notion-inbox-telegram-plugin/master/demo.png)
